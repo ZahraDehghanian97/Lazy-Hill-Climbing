@@ -38,16 +38,34 @@ def build_probable_matrixs(n, p):
     return list_m
 
 
+def score_add(node, S, A):
+    score = 0
+    for j in range(len_matrix):
+        if (j not in S) and A[node, j] > 0:
+            score += 1
+    return score
+
+
 input_file = 'facebook101_princton_weighted.mat'
 txt_input_file = 'dataset.txt'
 # change_MAT_to_TXT(input_file, txt_input_file)
 adjacency_matrix = build_matrix(txt_input_file, 6596)
 len_matrix = len(adjacency_matrix)
 
-# Make n realization of probabilistic Graph
-n = 2  # number of realization
-p = np.full((len_matrix,len_matrix),0.5)  # probability matrix of activation
+# Generate n realization of probabilistic Graph
+n = 100  # number of realization
+p = np.full((len_matrix, len_matrix), 0.5)  # probability matrix of activation
 list_matrices = build_probable_matrixs(n, p)
-print(np.count_nonzero(adjacency_matrix))
-print(np.count_nonzero(list_matrices[0]))
-print(np.count_nonzero(list_matrices[1]))
+
+# Compute S set with Greedy hill climbing
+size_s = 10
+S = []
+for i in range(size_s):
+    f_si = np.zeros(len_matrix)
+    for A in list_matrices:
+        for node in range(len_matrix):
+            if node not in S :
+                f_si[node] += score_add(node, S, A)
+    S.append(np.where(f_si == max(f_si))[0])
+    print(S)
+print(S)
