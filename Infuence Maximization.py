@@ -80,6 +80,7 @@ def greedy_hill_climbing(size_s,list_matrices):
         node = np.where(f_si == score_max)[0][0]
         S.append(node)
         score_max /= n
+        score_max= round(score_max,2)
         f_s.append(score_max / n)
         print("add node number " + str(node) + " with mean score = " + str(round(score_max, 2)))
     return S, f_s
