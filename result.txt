@@ -1,0 +1,127 @@
+C:\Users\zdehg\AppData\Local\Programs\Python\Python37\python.exe "D:/univesity/foqelisans/complex network/HW1_98131059/Q3/Infuence Maximization.py"
+Generate realization 
+run Greedy hill climbing Algorithm on realizations
+start finding 1th member of S
+compute f_si for realization number 1
+compute f_si for realization number 2
+compute f_si for realization number 3
+compute f_si for realization number 4
+compute f_si for realization number 5
+compute f_si for realization number 6
+compute f_si for realization number 7
+compute f_si for realization number 8
+compute f_si for realization number 9
+compute f_si for realization number 10
+add node number 412 with mean score = 319.0
+start finding 2th member of S
+compute f_si for realization number 1
+compute f_si for realization number 2
+compute f_si for realization number 3
+compute f_si for realization number 4
+compute f_si for realization number 5
+compute f_si for realization number 6
+compute f_si for realization number 7
+compute f_si for realization number 8
+compute f_si for realization number 9
+compute f_si for realization number 10
+add node number 4894 with mean score = 283.9
+start finding 3th member of S
+compute f_si for realization number 1
+compute f_si for realization number 2
+compute f_si for realization number 3
+compute f_si for realization number 4
+compute f_si for realization number 5
+compute f_si for realization number 6
+compute f_si for realization number 7
+compute f_si for realization number 8
+compute f_si for realization number 9
+compute f_si for realization number 10
+add node number 41 with mean score = 282.5
+start finding 4th member of S
+compute f_si for realization number 1
+compute f_si for realization number 2
+compute f_si for realization number 3
+compute f_si for realization number 4
+compute f_si for realization number 5
+compute f_si for realization number 6
+compute f_si for realization number 7
+compute f_si for realization number 8
+compute f_si for realization number 9
+compute f_si for realization number 10
+add node number 6068 with mean score = 280.2
+start finding 5th member of S
+compute f_si for realization number 1
+compute f_si for realization number 2
+compute f_si for realization number 3
+compute f_si for realization number 4
+compute f_si for realization number 5
+compute f_si for realization number 6
+compute f_si for realization number 7
+compute f_si for realization number 8
+compute f_si for realization number 9
+compute f_si for realization number 10
+add node number 2259 with mean score = 255.3
+start finding 6th member of S
+compute f_si for realization number 1
+compute f_si for realization number 2
+compute f_si for realization number 3
+compute f_si for realization number 4
+compute f_si for realization number 5
+compute f_si for realization number 6
+compute f_si for realization number 7
+compute f_si for realization number 8
+compute f_si for realization number 9
+compute f_si for realization number 10
+add node number 1195 with mean score = 244.5
+start finding 7th member of S
+compute f_si for realization number 1
+compute f_si for realization number 2
+compute f_si for realization number 3
+compute f_si for realization number 4
+compute f_si for realization number 5
+compute f_si for realization number 6
+compute f_si for realization number 7
+compute f_si for realization number 8
+compute f_si for realization number 9
+compute f_si for realization number 10
+add node number 1232 with mean score = 243.5
+start finding 8th member of S
+compute f_si for realization number 1
+compute f_si for realization number 2
+compute f_si for realization number 3
+compute f_si for realization number 4
+compute f_si for realization number 5
+compute f_si for realization number 6
+compute f_si for realization number 7
+compute f_si for realization number 8
+compute f_si for realization number 9
+compute f_si for realization number 10
+add node number 5 with mean score = 239.6
+start finding 9th member of S
+compute f_si for realization number 1
+compute f_si for realization number 2
+compute f_si for realization number 3
+compute f_si for realization number 4
+compute f_si for realization number 5
+compute f_si for realization number 6
+compute f_si for realization number 7
+compute f_si for realization number 8
+compute f_si for realization number 9
+compute f_si for realization number 10
+add node number 1286 with mean score = 216.3
+start finding 10th member of S
+compute f_si for realization number 1
+compute f_si for realization number 2
+compute f_si for realization number 3
+compute f_si for realization number 4
+compute f_si for realization number 5
+compute f_si for realization number 6
+compute f_si for realization number 7
+compute f_si for realization number 8
+compute f_si for realization number 9
+compute f_si for realization number 10
+add node number 606 with mean score = 215.3
+S set = [412, 4894, 41, 6068, 2259, 1195, 1232, 5, 1286, 606]
+mean score of each node = [31.9, 28.389999999999997, 28.25, 28.02, 25.53, 24.45, 24.35, 23.96, 21.630000000000003, 21.53]
+
+Process finished with exit code 0

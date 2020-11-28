@@ -41,7 +41,7 @@ def build_probable_matrixs(n, p):
 def score_add(node, S, A):
     score = 0
     for j in range(len_matrix):
-        if (j not in S) and A[node, j] > 0:
+        if  A[node, j] > 0 and (j not in S) :
             score += 1
     return score
 
@@ -53,19 +53,33 @@ adjacency_matrix = build_matrix(txt_input_file, 6596)
 len_matrix = len(adjacency_matrix)
 
 # Generate n realization of probabilistic Graph
-n = 100  # number of realization
+print("Generate realization ")
+n = 10  # number of realization
 p = np.full((len_matrix, len_matrix), 0.5)  # probability matrix of activation
 list_matrices = build_probable_matrixs(n, p)
 
+
 # Compute S set with Greedy hill climbing
+print("run Greedy hill climbing Algorithm on realizations")
 size_s = 10
 S = []
+f_s = []
 for i in range(size_s):
+    print("start finding "+str(len(S)+1)+"th member of S")
     f_si = np.zeros(len_matrix)
+    c = 0
     for A in list_matrices:
+        c+=1
         for node in range(len_matrix):
             if node not in S :
                 f_si[node] += score_add(node, S, A)
-    S.append(np.where(f_si == max(f_si))[0])
-    print(S)
-print(S)
+        print("compute f_si for realization number "+str(c))
+    score_max = max(f_si)
+    node = np.where(f_si == score_max)[0][0]
+    S.append(node)
+    score_max /= n
+    f_s.append(score_max/n)
+    print("add node number "+str(node)+ " with mean score = "+str(round(score_max,2)))
+print("S set = "+str(S))
+print("mean score of each node = "+str(f_s))
+
