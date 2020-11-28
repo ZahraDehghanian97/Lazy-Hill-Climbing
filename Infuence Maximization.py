@@ -41,9 +41,53 @@ def build_probable_matrixs(n, p):
 def score_add(node, S, A):
     score = 0
     for j in range(len_matrix):
-        if  A[node, j] > 0 and (j not in S) :
+        if A[node, j] > 0 and (j not in S):
             score += 1
     return score
+
+
+# generate p matrix with 1/degree[j]
+# degree[j] = input degree to node j
+def build_p(adjacency_matrix):
+    len_matrix = len(adjacency_matrix)
+    degree = np.zeros([len_matrix])
+    p = np.zeros([len_matrix, len_matrix])
+    for row in adjacency_matrix: degree += row  # input degree
+    # for row in adjacency_matrix : degree.append(sum(row)) # output degree
+    for i in range(len_matrix):
+        for j in range(len_matrix):
+            if degree[j] > 0: p[i, j] = 1 / degree[j]
+    return p
+
+
+# this function run greedy hill climbing on each realization and return most effective node with their score
+def greedy_hill_climbing(list_matrices):
+    # Compute S set with Greedy hill climbing
+    print("run Greedy hill climbing Algorithm on realizations")
+    size_s = 10
+    S = []
+    f_s = []
+    for i in range(size_s):
+        print("start finding " + str(len(S) + 1) + "th member of S")
+        f_si = np.zeros(len_matrix)
+        c = 0
+        for A in list_matrices:
+            c += 1
+            for node in range(len_matrix):
+                if node not in S:
+                    f_si[node] += score_add(node, S, A)
+            print("compute f_si for realization number " + str(c))
+        score_max = max(f_si)
+        node = np.where(f_si == score_max)[0][0]
+        S.append(node)
+        score_max /= n
+        f_s.append(score_max / n)
+        print("add node number " + str(node) + " with mean score = " + str(round(score_max, 2)))
+        return S, f_s
+
+
+def equal_p(probability, adjacency_matrix):
+    return np.full((len(adjacency_matrix), len(adjacency_matrix)), probability)
 
 
 input_file = 'facebook101_princton_weighted.mat'
@@ -55,31 +99,13 @@ len_matrix = len(adjacency_matrix)
 # Generate n realization of probabilistic Graph
 print("Generate realization ")
 n = 10  # number of realization
-p = np.full((len_matrix, len_matrix), 0.5)  # probability matrix of activation
+
+# # algorithm 1 : equal p for all node
+# p = equal_p(0.5,adjacency_matrix)# probability matrix of activation
+# algorithm 2 : p[i,j] = 1 / degree(j)
+p = build_p(adjacency_matrix)
+
 list_matrices = build_probable_matrixs(n, p)
-
-
-# Compute S set with Greedy hill climbing
-print("run Greedy hill climbing Algorithm on realizations")
-size_s = 10
-S = []
-f_s = []
-for i in range(size_s):
-    print("start finding "+str(len(S)+1)+"th member of S")
-    f_si = np.zeros(len_matrix)
-    c = 0
-    for A in list_matrices:
-        c+=1
-        for node in range(len_matrix):
-            if node not in S :
-                f_si[node] += score_add(node, S, A)
-        print("compute f_si for realization number "+str(c))
-    score_max = max(f_si)
-    node = np.where(f_si == score_max)[0][0]
-    S.append(node)
-    score_max /= n
-    f_s.append(score_max/n)
-    print("add node number "+str(node)+ " with mean score = "+str(round(score_max,2)))
-print("S set = "+str(S))
-print("mean score of each node = "+str(f_s))
-
+S, f_s = greedy_hill_climbing(list_matrices)
+print("S set = " + str(S))
+print("mean score of each node = " + str(f_s))
