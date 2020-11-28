@@ -61,10 +61,9 @@ def build_p(adjacency_matrix):
 
 
 # this function run greedy hill climbing on each realization and return most effective node with their score
-def greedy_hill_climbing(list_matrices):
+def greedy_hill_climbing(size_s,list_matrices):
     # Compute S set with Greedy hill climbing
     print("run Greedy hill climbing Algorithm on realizations")
-    size_s = 10
     S = []
     f_s = []
     for i in range(size_s):
@@ -83,7 +82,7 @@ def greedy_hill_climbing(list_matrices):
         score_max /= n
         f_s.append(score_max / n)
         print("add node number " + str(node) + " with mean score = " + str(round(score_max, 2)))
-        return S, f_s
+    return S, f_s
 
 
 def equal_p(probability, adjacency_matrix):
@@ -104,8 +103,10 @@ n = 10  # number of realization
 # p = equal_p(0.5,adjacency_matrix)# probability matrix of activation
 # algorithm 2 : p[i,j] = 1 / degree(j)
 p = build_p(adjacency_matrix)
+print("compute prior probability matrix")
 
 list_matrices = build_probable_matrixs(n, p)
-S, f_s = greedy_hill_climbing(list_matrices)
+size_s = 10
+S, f_s = greedy_hill_climbing(size_s,list_matrices)
 print("S set = " + str(S))
 print("mean score of each node = " + str(f_s))
