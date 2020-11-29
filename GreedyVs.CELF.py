@@ -72,7 +72,7 @@ def greedy(g, k):
     for o in range(k):
         best_spread = 0
         for j in set(range(num_node)) - set(S):
-            s = IC2(g, S + [j])
+            s = IC(g, S + [j])
             if s > best_spread:
                 best_spread, node = s, j
         S.append(node)
@@ -84,7 +84,7 @@ def greedy(g, k):
 
 def celf(g, k):
     start_time = time.time()
-    marg_gain = [IC2(g, [node]) for node in range(num_node)]
+    marg_gain = [IC(g, [node]) for node in range(num_node)]
     Q = sorted(zip(range(num_node), marg_gain), key=lambda x: x[1], reverse=True)
     S, SPREAD = [Q[0][0]], [Q[0][1]]
     Q, timelapse = Q[1:], [time.time() - start_time]
@@ -93,7 +93,7 @@ def celf(g, k):
         check = False
         while not check:
             current = Q[0][0]
-            Q[0] = (current, IC2(g, S + [current]))
+            Q[0] = (current, IC(g, S + [current]))
             Q = sorted(Q, key=lambda x: x[1], reverse=True)
             check = (Q[0][0] == current)
         S.append(Q[0][0])
@@ -114,7 +114,7 @@ adjacency_matrix = build_matrix(txt_input_file, num_node)
 print("read input file and convert to matrix")
 
 # genetate realization
-num_realization = 10
+num_realization = 5
 list_realization = build_probable_matrices(adjacency_matrix, num_realization, p=0.1)
 print("generate " + str(num_realization) + " realization successfully")
 
