@@ -21,7 +21,7 @@ def build_matrix(dataset, size_matrix):
     A = open(dataset, encoding='utf-8')
     for line in A:
         text = line.split()
-        result[int(text[0]), int(text[1])] = abs(float(text[2]))
+        result[int(text[0]), int(text[1])] = 1 #abs(float(text[2]))
     return result
 
 
@@ -33,8 +33,9 @@ def build_probable_matrices(adjacency_matrix, num_realization, p):
         for i in range(num_node):
             indexes = np.nonzero(temp[i])
             for j in indexes[0]:
-                temp[i, j] = np.random.uniform(0, 1, 1)[0] < p
-                temp[j,i] = temp[i,j]
+                if j>= i :
+                    temp[i, j] = np.random.uniform(0, 1, 1)[0] < p
+                    temp[j,i] = temp[i,j]
         list_m.append(temp)
     return list_m
 
@@ -43,11 +44,13 @@ def get_neighbor(g, node):
     return np.nonzero(g[node])[0]
 
 
-def IC2(list_g, S):
+def IC1(list_g, S):
     score = 0
     for g in list_g:
+        neighbor = []
         for s in S:
-            score += np.count_nonzero(g[s])
+            neighbor.extend(np.nonzero(g[s])[0])
+        score += len(list(set(neighbor)))
     score /= len(list_g)
     return score
 
@@ -74,11 +77,11 @@ def greedy_hill_climbing(g, k):
     for o in range(kprime):
         best_spread = 0
         for j in set(range(num_node)) - set(S):
-            s = IC(g, S + [j])
-            if s > best_spread:
+            s = IC1(g, S + [j])
+            if s >= best_spread:
                 best_spread, node = s, j
         S.append(node)
-        print("find " + str(o + 1) + "nd member of S = "+str(node))
+        print("find " + str(o + 1) + "nd member of S = "+str(node)+" with spread = "+str(best_spread))
         spread.append(best_spread)
         timelapse.append(time.time() - start_time)
     return S, spread, timelapse
@@ -86,23 +89,24 @@ def greedy_hill_climbing(g, k):
 
 def lazy_hill_climbing(g, k):
     start_time = time.time()
-    marg_gain = [IC(g, [node]) for node in range(num_node)]
+    marg_gain = [IC1(g, [node]) for node in range(num_node)]
     Q = sorted(zip(range(num_node), marg_gain), key=lambda x: x[1], reverse=True)
-    S, SPREAD = [Q[0][0]], [Q[0][1]]
+    S,s, SPREAD = [Q[0][0]],Q[0][1], [Q[0][1]]
     Q, timelapse = Q[1:], [time.time() - start_time]
-    print("find 1st member of S")
+    print("find 1st member of S = "+str(S[0]))
     kprime = min(k, num_node)
     for o in range(1, kprime):
         check = False
         while not check:
             current = Q[0][0]
-            Q[0] = (current, IC(g, S + [current]))
+            Q[0] = (current, IC1(g, S + [current])-s)
             Q = sorted(Q, key=lambda x: x[1], reverse=True)
             check = (Q[0][0] == current)
         S.append(Q[0][0])
-        SPREAD.append(Q[0][1])
+        s += Q[0][1]
+        SPREAD.append(s)
         timelapse.append(time.time() - start_time)
-        print("find " + str(o + 1) + "nd member of S = "+str(Q[0][0]))
+        print("find " + str(o + 1) + "nd member of S = "+str(Q[0][0])+" with spread = "+str(s))
         Q = Q[1:]
     return S, SPREAD, timelapse
 
@@ -116,7 +120,7 @@ adjacency_matrix = build_matrix(txt_input_file, num_node)
 print("read input file and convert to matrix")
 
 # genetate realization
-num_realization = 2
+num_realization = 10
 list_realization = build_probable_matrices(adjacency_matrix, num_realization, p=0.1)
 print("generate " + str(num_realization) + " realization successfully")
 
@@ -127,7 +131,7 @@ print("generate " + str(num_realization) + " realization successfully")
 # num_realization = 2
 
 # Run algorithms
-size_S = 3
+size_S = 10
 print("start running lazy_hill_climbing")
 lazy_hill_climbing_output = lazy_hill_climbing(list_realization, size_S)
 print("lazy_hill_climbing output:   " + str(lazy_hill_climbing_output[0]))
